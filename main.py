@@ -33,6 +33,7 @@ def get_player_choice():
                 print("Please pick a number from your hand.")
         except ValueError:
             print("Invalid input. Please enter a number.")
+    
 
 def remove_card_from_hand(hand, card):
     """Remove a card from the specified hand."""
@@ -49,7 +50,8 @@ def play_round():
     
     player_card = get_player_choice()
     game_master_card = random.choice(game_master)
-    
+    print("=================================================")
+
     print(f"Player plays: {player_card}")
     print(f"Game Master plays: {game_master_card}")
     
@@ -66,15 +68,21 @@ def play_round():
     else:
         print("It's a tie!")
         print(f"Player Score: {player_score}, Game Master Score: {game_master_score}")
-        
+    
+    print("=================================================")
+
     if not player or not game_master:
-        print("One of the hands is empty. Ending the game.")
+        if player_score < game_master_score:
+            print("Game Master wins the game!")
+        else:
+            print("Player wins the game!")
         return False
     
     return True
 
 def calculate_score(card1, card2):
     """Calculate the score based on the cards played."""
+    global player_score, game_master_score
     if card1 > card2:
         player_score += 1  # Player wins this round
         return 1
@@ -82,9 +90,10 @@ def calculate_score(card1, card2):
         game_master_score += 1  # Game Master wins this round
         return -1
     else:
-        return 0  # Tie, no score change
+        return 0 # Tie, no score change
 
 def main():
+
     """Main function to run the game."""
     start_hand()
     show_hands()
